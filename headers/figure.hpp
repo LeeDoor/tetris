@@ -4,10 +4,13 @@
 #include <array>
 
 class Figure {
-private:
+protected:
     std::array<std::array<bool, 4>, 4> value;
 public:
+    Figure(Figure& figure);
     Figure(std::array<std::array<bool, 4>, 4> _value);
 
-    std::array<bool, 4> operator[](int i);
+    bool& get(int x, int y);
+
+    void display();
 };

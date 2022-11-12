@@ -1,11 +1,17 @@
 #pragma once
+#include <memory>
 #include "field.hpp"
 #include "figures.hpp"
+#include "game_figure.hpp"
 
 class GameManager {
-private:
 public:
-    Field field;
+    void Start();
 
-    void Print();
+private:
+    static const int startX = 3, startY = 0;
+
+    std::shared_ptr<Field> field;
+    
+    void Print(GameFigure figure);
 };
