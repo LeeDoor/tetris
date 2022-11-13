@@ -4,6 +4,8 @@
 #include "field.hpp"
 #include <memory>
 
+//class Field;
+
 class GameFigure : public Figure {
 private:
     int x, y;
@@ -27,4 +29,5 @@ public:
     //if x & y not set, it uses its own x y values
     bool isIntersects(std::shared_ptr<Field> field);
 
+    void setToField(std::shared_ptr<Field> field);
 };

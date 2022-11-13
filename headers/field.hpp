@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
 
+//class GameFigure;
 class Field {
 public:
     static const int w = 10;
@@ -10,5 +11,5 @@ public:
 
     Field();
 
-    bool get(int x, int y);
+    bool& get(int x, int y);
 };

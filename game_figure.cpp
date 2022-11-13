@@ -73,7 +73,7 @@ bool GameFigure::isIntersects(int _x, int _y, std::shared_ptr<Field> field) {
         for(int j = 0; j < 4; ++j) {
             int fX = _x + i, fY = _y + j;
             if(get(i, j) && (0 > fX || fX >= Field::w || 0 > fY || fY >= Field::h)) {
-                std::cout << "intersects " << fX << " " << fY << " : " << x << " " << y << std::endl;
+                //std::cout << "intersects " << fX << " " << fY << " : " << x << " " << y << std::endl;
                 return true;
             }
             if(get(i, j) && field->get(fX, fY)) {
@@ -82,4 +82,14 @@ bool GameFigure::isIntersects(int _x, int _y, std::shared_ptr<Field> field) {
         }
     }
     return false;
+}
+
+void GameFigure::setToField(std::shared_ptr<Field> field) {
+    for (int r = 0; r < 4; ++r) {
+        for (int w = 0; w < 4; ++w) {
+            if (get(w, r)) {
+                field->get(w + getX(), r + getY()) = true;
+            }
+        }
+    }
 }
