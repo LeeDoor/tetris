@@ -1,7 +1,7 @@
 #include "headers/figure.hpp"
 #include <iostream>
 
-Figure::Figure(Figure& figure) {
+Figure::Figure(const Figure& figure) {
     value = figure.value;
 }
 Figure::Figure(std::array<std::array<bool, 4>, 4> _value) {

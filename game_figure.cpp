@@ -13,7 +13,7 @@ int GameFigure::getY() {
 }
 
 bool GameFigure::tryMove(Dir dir, std::shared_ptr<Field> field) {
-    int _x, _y;
+    int _x = x, _y = y;
     switch (dir)
     {
     case left:
@@ -71,8 +71,9 @@ bool GameFigure::isIntersects(std::shared_ptr<Field> field) {
 bool GameFigure::isIntersects(int _x, int _y, std::shared_ptr<Field> field) {
     for(int i = 0; i < 4; ++i) {
         for(int j = 0; j < 4; ++j) {
-            int fX = x + i, fY = y + j;
-            if(get(i, j) && (0 > fX || fX >= Field::w - 1 || 0 > fY || fY >= Field::h - 1)) {
+            int fX = _x + i, fY = _y + j;
+            if(get(i, j) && (0 > fX || fX >= Field::w || 0 > fY || fY >= Field::h)) {
+                std::cout << "intersects " << fX << " " << fY << " : " << x << " " << y << std::endl;
                 return true;
             }
             if(get(i, j) && field->get(fX, fY)) {
