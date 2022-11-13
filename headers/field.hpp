@@ -10,5 +10,5 @@ public:
 
     Field();
 
-    std::array<bool, w> operator[](int i);
+    bool get(int x, int y);
 };

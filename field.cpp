@@ -9,6 +9,6 @@ Field::Field() {
     field.fill(arr);
 }
 
-std::array<bool, Field::w> Field::operator[](int i) {
-    return field[i];
+bool Field::get(int x, int y) {
+    return field[y][x];
 }

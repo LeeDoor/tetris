@@ -8,23 +8,21 @@
 
 void GameManager::Start() {
     field = std::make_shared<Field>();
-    Figures figures;
-    GameFigure figure(GameManager::startX, GameManager::startY, figures.PickOne());
+
+    GameFigure figure(GameManager::startX, GameManager::startY, Figures::PickOne());
     bool gameState = true;
 
     //game loop
     while(gameState) {
-        bool u = figure.tryMove(Dir::down, field);
+        figure.tryMove(Dir::down, field);
 
         Print(figure);
-        std::cout << u << std::endl;
-        std::cin.get();
-        //std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(800));
     }
 }
 
 void GameManager::Print(GameFigure figure) {
-    system("cls");
+    //system("cls");
     figure.display();
     for(int r = 0; r < Field::h; ++r) {
         for(int w = 0; w < Field::w; ++w) {
@@ -33,7 +31,7 @@ void GameManager::Print(GameFigure figure) {
             if(0 <= X && X < 4 && 0 <= Y && Y < 4) 
                 std::cout << figure.get(X, Y) << " ";
             else 
-                std::cout << (*field)[r][w] << " ";
+                std::cout << field->get(r, w) << " ";
         }
         std::cout << std::endl;
     }

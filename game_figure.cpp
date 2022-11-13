@@ -1,4 +1,5 @@
 #include "headers/game_figure.hpp"
+#include <iostream>
 
 GameFigure::GameFigure(int _x, int _y, Figure baseFigure) 
     : x(_x), y(_y), Figure(baseFigure) {}
@@ -70,10 +71,14 @@ bool GameFigure::isIntersects(std::shared_ptr<Field> field) {
 bool GameFigure::isIntersects(int _x, int _y, std::shared_ptr<Field> field) {
     for(int i = 0; i < 4; ++i) {
         for(int j = 0; j < 4; ++j) {
-            if(!(value[i][j] ^ (*field)[x + i][y + j])) {
-                return false;
+            int fX = x + i, fY = y + j;
+            if(get(i, j) && (0 > fX || fX >= Field::w - 1 || 0 > fY || fY >= Field::h - 1)) {
+                return true;
+            }
+            if(get(i, j) && field->get(fX, fY)) {
+                return true;
             }
         }
     }
-    return true;
+    return false;
 }
