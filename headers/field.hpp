@@ -3,6 +3,9 @@
 
 //class GameFigure;
 class Field {
+private:
+    bool clearRow(int id);
+
 public:
     static const int w = 10;
     static const int h = 20;
@@ -12,4 +15,5 @@ public:
     Field();
 
     bool& get(int x, int y);
+    bool clearRows();
 };

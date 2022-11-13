@@ -49,11 +49,11 @@ bool GameFigure::tryRotate(Dir dir, std::shared_ptr<Field> field) {
         for(int j = 0; j < 4; ++j) {
             switch(dir) {
             case right:
-                b.get(j, 4 - 1 - i) = value[i][j];
+                b.get(4 - 1 - i, j) = value[i][j];
                 break;
 
             case left:
-                b.get(4 - 1 - j, i) = value[i][j];
+                b.get(i, 4 - 1 - j) = value[i][j];
                 break;
             }
         }

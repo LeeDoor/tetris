@@ -15,10 +15,12 @@ void GameManager::Start() {
     //game loop
     while(gameState) {
         Print(figure);
-        Moving(figure);
+
+        Interact(figure);
         if (figure.isIntersects(figure.getX(), figure.getY() + 1, field)) {
             figure.setToField(field);
             figure = GameFigure(GameManager::startX, GameManager::startY, Figures::PickOne());
+            if (field->clearRows()) Print(figure);
         }
     }
 }
@@ -45,10 +47,11 @@ void GameManager::Print(GameFigure figure) {
     for (int i = 0; i < Field::w; ++i) std::cout << "__";
 }
 
-void GameManager::Moving(GameFigure& figure) {
+void GameManager::Interact(GameFigure& figure) {
     char inp;
     std::cin.get(inp);
     switch (inp) {
+        //moving figure
     case 'a':
         figure.tryMove(Dir::left, field);
         break;
@@ -59,6 +62,15 @@ void GameManager::Moving(GameFigure& figure) {
         figure.tryMove(Dir::down, field);
         figure.tryMove(Dir::down, field);
         break;
+
+        // rotating
+    case 'e':
+        figure.tryRotate(Dir::right, field);
+        break;
+    case 'q':
+        figure.tryRotate(Dir::left, field);
+        break;
+
     default:
         figure.tryMove(Dir::down, field);
         break;

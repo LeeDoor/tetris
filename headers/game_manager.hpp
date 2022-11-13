@@ -14,5 +14,5 @@ private:
     std::shared_ptr<Field> field;
     
     void Print(GameFigure figure);
-    void Moving(GameFigure& figure);
+    void Interact(GameFigure& figure);
 };
