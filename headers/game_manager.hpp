@@ -7,12 +7,17 @@
 class GameManager {
 public:
     void Start();
+    void printLoop();
+    void controlLoop();
 
 private:
     static const int startX = 3, startY = 0;
 
     std::shared_ptr<Field> field;
+    std::shared_ptr<GameFigure> figure;
+    bool gameState;
     
-    void Print(GameFigure figure);
-    void Interact(GameFigure& figure);
+
+    void print(std::shared_ptr<GameFigure> figure);
+    char interact(std::shared_ptr<GameFigure> figure);
 };
