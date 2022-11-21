@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <vector>
 #include "field.hpp"
 #include "figures.hpp"
 #include "game_figure.hpp"
@@ -11,13 +12,20 @@ public:
     void controlLoop();
 
 private:
-    static const int startX = 3, startY = 0;
+    static const int startX = 3, startY = 0, queueSize = 3;
 
     std::shared_ptr<Field> field;
     std::shared_ptr<GameFigure> figure;
+    std::shared_ptr<std::vector<Figure>> queue;
     bool gameState;
     
+    void fillQueue();
+    std::shared_ptr<GameFigure> getNextFigure();
 
-    void print(std::shared_ptr<GameFigure> figure);
-    char interact(std::shared_ptr<GameFigure> figure);
+    void print();
+    void printQueue();
+    void printSeparator(int s);
+    char interact();
+    
+    char symchar(bool a);
 };

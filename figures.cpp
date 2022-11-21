@@ -52,6 +52,5 @@ figures = std::array<Figure, 5>{
 };
 
 Figure Figures::PickOne() {
-    std::srand(std::time(NULL));
     return figures[std::rand() % 5];
 }

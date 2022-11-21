@@ -5,11 +5,24 @@
 #include <chrono>
 #include <thread>
 
+void GameManager::fillQueue() {
+    queue = std::make_shared<std::vector<Figure>>();
+    for (int i = 0; i < GameManager::queueSize; ++i) {
+        queue->push_back(Figures::PickOne());
+    }
+}
+std::shared_ptr<GameFigure> GameManager::getNextFigure() {
+    queue->push_back(Figures::PickOne());
+    std::shared_ptr<GameFigure> res = std::make_shared<GameFigure>
+        (GameManager::startX, GameManager::startY, queue->front());
+    queue->erase(queue->begin());
+    return res;
+}
 
 void GameManager::Start() {
     field = std::make_shared<Field>();
-
-    figure = std::make_shared<GameFigure>(GameManager::startX, GameManager::startY, Figures::PickOne());
+    fillQueue();
+    figure = getNextFigure();
     gameState = true;
     std::thread printThread(&GameManager::printLoop, this);
     std::thread controlThread(&GameManager::controlLoop, this);
@@ -18,30 +31,52 @@ void GameManager::Start() {
 
 void GameManager::printLoop() {
     while (gameState) {
-        print(figure);
+        print();
         figure->tryMove(Dir::down, field);
 
         if (figure->isIntersects(figure->getX(), figure->getY() + 1, field)) {
             figure->setToField(field);
-            figure = std::make_shared<GameFigure>(GameManager::startX, GameManager::startY, Figures::PickOne());
-            if (field->clearRows()) print(figure);
+            figure = getNextFigure();
+            if (field->clearRows()) print();
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
     }
 }
 
 void GameManager::controlLoop() {
 
     while (gameState) {
-        char inp = interact(figure);
+        char inp = interact();
     }
 }
 
-void GameManager::print(std::shared_ptr<GameFigure> figure) {
+void GameManager::printQueue() {
+    std::cout << "next: " << std::endl;
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < queue->size(); ++j) {
+            for (int l = 0; l < 4; ++l) {
+                std::cout << symchar((*queue)[j].get(l, i)) << ' ';
+            }
+        }
+        std::cout << std::endl;
+    }
+}
+
+void GameManager::printSeparator(int s = 20) {
+    std::cout << std::endl << std::endl << std::endl;
+    for (int i = 0; i < s; ++i) {
+        std::cout << "@ ";
+    }
+    std::cout << std::endl << std::endl << std::endl;
+}
+
+void GameManager::print() {
     system("cls");
     //std::cout << "\t";
     //for(int i = 0; i < Field::w; ++i) std::cout << i << " ";
     //std::cout << std::endl << std::endl;
+    printQueue();
+    printSeparator();
 
     for(int r = 0; r < Field::h; ++r) {
         //std::cout << r << "\t";
@@ -49,9 +84,9 @@ void GameManager::print(std::shared_ptr<GameFigure> figure) {
             int Y = r - figure->getY(), X = w - figure->getX();
 
             if(0 <= X && X < 4 && 0 <= Y && Y < 4) 
-                std::cout << (figure->get(X, Y) || field->get(w, r) ? "*" : " ") << " ";
+                std::cout << symchar(figure->get(X, Y) || field->get(w, r)) << " ";
             else 
-                std::cout << (field->get(w, r) ? "*" : " ") << " ";
+                std::cout << symchar(field->get(w, r)) << " ";
         }
         std::cout << "|" << std::endl;
     }
@@ -59,7 +94,7 @@ void GameManager::print(std::shared_ptr<GameFigure> figure) {
     for (int i = 0; i < Field::w; ++i) std::cout << "__";
 }
 
-char GameManager::interact(std::shared_ptr<GameFigure> figure) {
+char GameManager::interact() {
     char inp;
     std::cin.get(inp);
     
@@ -84,4 +119,8 @@ char GameManager::interact(std::shared_ptr<GameFigure> figure) {
         break;
     }
     return inp;
+}
+
+char GameManager::symchar(bool a) {
+    return (a ? '*' : ' ');
 }
