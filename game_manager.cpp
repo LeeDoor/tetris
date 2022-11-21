@@ -27,17 +27,25 @@ void GameManager::Start() {
     std::thread printThread(&GameManager::printLoop, this);
     std::thread controlThread(&GameManager::controlLoop, this);
     printThread.join();
+
+    printGameOver();
+
+    controlThread.join();
+}
+
+void GameManager::printGameOver() {
+    print();
+    printSeparator();
+    std::cout << "Game Over!"; // scores
 }
 
 void GameManager::printLoop() {
     while (gameState) {
         print();
         figure->tryMove(Dir::down, field);
-
-        if (figure->isIntersects(figure->getX(), figure->getY() + 1, field)) {
-            figure->setToField(field);
-            figure = getNextFigure();
-            if (field->clearRows()) print();
+        isFigureSet();
+        if (figure->isIntersects(field)) {
+            gameState = false;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(600));
     }
@@ -46,7 +54,17 @@ void GameManager::printLoop() {
 void GameManager::controlLoop() {
 
     while (gameState) {
-        char inp = interact();
+        interact();
+    }
+}
+
+void GameManager::isFigureSet() {
+    if (figure->isIntersects(figure->getX(), figure->getY() + 1, field)) {
+        figure->setToField(field);
+        figure = getNextFigure();
+        if (field->clearRows()) {
+            print();
+        }
     }
 }
 
@@ -62,7 +80,7 @@ void GameManager::printQueue() {
     }
 }
 
-void GameManager::printSeparator(int s = 20) {
+void GameManager::printSeparator(int s) {
     std::cout << std::endl << std::endl << std::endl;
     for (int i = 0; i < s; ++i) {
         std::cout << "@ ";

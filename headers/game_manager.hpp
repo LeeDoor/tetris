@@ -22,9 +22,13 @@ private:
     void fillQueue();
     std::shared_ptr<GameFigure> getNextFigure();
 
+    void isFigureSet();
+
     void print();
     void printQueue();
-    void printSeparator(int s);
+    void printSeparator(int s = 20);
+    void printGameOver();
+
     char interact();
     
     char symchar(bool a);

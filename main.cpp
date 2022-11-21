@@ -8,3 +8,8 @@ int main(){
     GameManager a;
     a.Start();
 }
+
+//comments
+///win the game
+//keep
+//scores
