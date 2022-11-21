@@ -4,15 +4,16 @@
 #include "field.hpp"
 #include <memory>
 
-//class Field;
-
+//figure which is currently now in the game
 class GameFigure : public Figure {
 private:
     int x, y;
 public:
     GameFigure(int _x, int _y, Figure baseFigure);
 
+    //returns current X coord
     int getX();
+    //reutrns current Y coord
     int getY();
 
     //if its possible to move figure, moves and returns true
@@ -29,5 +30,6 @@ public:
     //if x & y not set, it uses its own x y values
     bool isIntersects(std::shared_ptr<Field> field);
 
+    //if figure is already done, save its value to the field
     void setToField(std::shared_ptr<Field> field);
 };
