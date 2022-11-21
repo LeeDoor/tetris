@@ -4,7 +4,9 @@
 
 class Figures {
 public:
-    static std::array<Figure, 5> figures;
+    static const int figuresAmount = 7;
+
+    static std::array < Figure, Figures::figuresAmount > figures;
     
     static Figure PickOne();
 };
